@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Transport App</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Optimisation pour éviter le zoom automatique sur iPhone lors du clic sur les inputs */
+        @media screen and (max-width: 768px) {
+            input, select, textarea { font-size: 16px !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 antialiased font-sans">
+
+    <div class="w-full max-w-[380px] animate-in fade-in zoom-in duration-500">
+        
+        <div class="flex justify-center mb-8">
+            <div class="w-16 h-16 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl shadow-xl shadow-blue-500/30 flex items-center justify-center rotate-3">
+                <i class="fa-solid fa-truck-fast text-white text-3xl"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden">
+            
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-black text-slate-800 tracking-tight">Bienvenue</h1>
+                    <p class="text-slate-400 text-sm mt-1">Identifiez-vous pour continuer</p>
+                </div>
+
+                <form class="space-y-6" onsubmit="event.preventDefault(); location.href='index.html';">
+                    
+                    <div class="space-y-2">
+                        <label for="login" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Identifiant</label>
+                        <div class="relative group">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-300 group-focus-within:text-blue-500 transition-colors">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="login" 
+                                name="login" 
+                                required
+                                placeholder="Utilisateur" 
+                                class="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-transparent rounded-2xl text-slate-800 placeholder-slate-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-300"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="pass" class="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Mot de passe</label>
+                        <div class="relative group">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-300 group-focus-within:text-blue-500 transition-colors">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input 
+                                type="password" 
+                                id="pass" 
+                                name="pass" 
+                                required
+                                placeholder="••••••••" 
+                                class="w-full pl-11 pr-12 py-4 bg-slate-50 border-2 border-transparent rounded-2xl text-slate-800 placeholder-slate-300 focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-300"
+                            >
+                            <button type="button" onclick="togglePass()" class="absolute inset-y-0 right-0 pr-4 text-slate-300 hover:text-slate-500">
+                                <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-4 rounded-2xl shadow-xl shadow-blue-500/30 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                    >
+                        <span>Se connecter</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
+            
+        </div>
+        
+        <p class="text-center mt-8 text-slate-400 text-[10px] uppercase tracking-tighter font-medium">
+            Prix de Transport Nouakchott - Bamako
+        </p>
+    </div>
+
+    <script>
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePass() {
+            const passInput = document.getElementById('pass');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passInput.type = 'password';
+                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+
+</body>
+</html>

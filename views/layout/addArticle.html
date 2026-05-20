@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Prix de Transport</title>
+    <!-- Tailwind CSS pour le design épuré -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 min-h-screen py-10 px-4 antialiased font-sans">
+
+    <div class="max-w-4xl mx-auto space-y-8">
+        
+        <!-- SECTION 1 : LE FORMULAIRE D'ENREGISTREMENT -->
+        <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transition-all duration-300">
+            <!-- En-tête -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5 text-white">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-white/10 rounded-lg backdrop-blur-md">
+                        <i class="fa-solid fa-truck-ramp-box text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight">Frais de Transport</h2>
+                        <p class="text-xs text-blue-100 mt-0.5">Enregistrer un nouvel article et ses mots-clés</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corps du formulaire -->
+            <form id="transportForm" class="p-6 space-y-5">
+                <!-- Champ : Article -->
+                <div class="space-y-1.5">
+                    <label for="article" class="text-sm font-semibold text-slate-700 block">Nom de l'article</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-box-open text-sm"></i>
+                        </span>
+                        <input type="text" id="article" required placeholder="Ex: Marteau, Shampoing..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+                    </div>
+                </div>
+
+                <!-- Champ : Catégorie -->
+                <div class="space-y-1.5">
+                    <label for="categorie" class="text-sm font-semibold text-slate-700 block">Catégorie</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-tags text-sm"></i>
+                        </span>
+                        <select id="categorie" required class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+                            <option value="" disabled selected hidden>Choisir une catégorie...</option>
+                            <option value="alimentation">🍎 Alimentation</option>
+                            <option value="cosmetique">💄 Cosmétique</option>
+                            <option value="piece">⚙️ Pièce</option>
+                            <option value="quincaillerie">🛠️ Quincaillerie</option>
+                        </select>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-slate-400"><i class="fa-solid fa-chevron-down text-xs"></i></span>
+                    </div>
+                </div>
+
+                <!-- Champ : Prix -->
+                <div class="space-y-1.5">
+                    <label for="prix" class="text-sm font-semibold text-slate-700 block">Prix du transport</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                            <i class="fa-solid fa-money-bill-wave text-sm"></i>
+                        </span>
+                        <input type="number" id="prix" min="0" step="0.01" required placeholder="0.00" class="w-full pl-10 pr-12 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sm font-bold text-slate-400">€</span>
+                    </div>
+                </div>
+
+                <!-- NOUVEAU Champ : Mots-clés (Système de Tags) -->
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700 block">Mots-clés associés</label>
+                    <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl min-h-[44px] flex flex-wrap gap-2 items-center focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 focus-within:bg-white transition-all duration-200">
+                        <!-- Les tags générés apparaîtront ici -->
+                        <div id="tagsContainer" class="flex flex-wrap gap-1.5"></div>
+                        <input type="text" id="tagInput" placeholder="Tapez et appuyez sur Entrée..." class="flex-1 min-w-[120px] bg-transparent text-sm font-medium text-slate-800 outline-none placeholder-slate-400">
+                    </div>
+                    <p class="text-[11px] text-slate-400 pl-1">Séparez les mots par une virgule ou appuyez sur Entrée.</p>
+                </div>
+
+                <!-- Bouton Enregistrer -->
+                <button type="submit" class="w-full mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
+                    <i class="fa-solid fa-floppy-disk"></i> Enregistrer l'article
+                </button>
+            </form>
+        </div>
+
+        <!-- SECTION 2 : RECHERCHE ET RÉSULTATS -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800">Rechercher un article</h3>
+                    <p class="text-xs text-slate-400">Recherche par nom ou par mot-clé</p>
+                </div>
+                <!-- Barre de recherche -->
+                <div class="relative w-full sm:max-w-xs">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Tapez un mot-clé ou un article..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200">
+                </div>
+            </div>
+
+            <!-- Tableau des résultats -->
+            <div class="overflow-x-auto rounded-xl border border-slate-100">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-50 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3">Article</th>
+                            <th class="px-4 py-3">Catégorie</th>
+                            <th class="px-4 py-3">Prix Transport</th>
+                            <th class="px-4 py-3">Mots-clés</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody" class="divide-y divide-slate-100">
+                        <!-- Message si vide -->
+                        <tr id="emptyRow">
+                            <td colspan="4" class="px-4 py-8 text-center text-slate-400 italic">Aucun article enregistré ou correspondant à la recherche.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT -->
+    <script>
+        // Base de données locale temporaire pour la démonstration
+        let articlesDatabase = [];
+        let currentKeywords = [];
+
+        const tagInput = document.getElementById('tagInput');
+        const tagsContainer = document.getElementById('tagsContainer');
+        const form = document.getElementById('transportForm');
+        const searchInput = document.getElementById('searchInput');
+        const resultsTableBody = document.getElementById('resultsTableBody');
+        const emptyRow = document.getElementById('emptyRow');
+
+        // --- GESTION DES MOTS CLÉS (TAGS) ---
+        function renderTags() {
+            tagsContainer.innerHTML = '';
+            currentKeywords.forEach((word, index) => {
+                const tag = document.createElement('span');
+                tag.className = "inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-xs font-semibold px-2 py-1 rounded-md border border-blue-100";
+                tag.innerHTML = `
+                    ${word}
+                    <button type="button" onclick="removeTag(${index})" class="hover:text-red-500 font-bold focus:outline-none ml-0.5 cursor-pointer">&times;</button>
+                `;
+                tagsContainer.appendChild(tag);
+            });
+        }
+
+        function addTag(value) {
+            const cleanWord = value.trim().toLowerCase();
+            if (cleanWord && !currentKeywords.includes(cleanWord)) {
+                currentKeywords.push(cleanWord);
+                renderTags();
+            }
+            tagInput.value = '';
+        }
+
+        function removeTag(index) {
+            currentKeywords.splice(index, 1);
+            renderTags();
+        }
+
+        // Écouter les touches "Entrée" et "Virgule" pour créer un mot-clé
+        tagInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ',') {
+                e.preventDefault();
+                addTag(tagInput.value);
+            }
+        });
+
+        // Ajouter le tag si l'utilisateur clique en dehors du champ
+        tagInput.addEventListener('blur', () => {
+            addTag(tagInput.value);
+        });
+
+
+        // --- SOUUMISSION DU FORMULAIRE ---
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Forcer l'ajout du mot en cours dans le champ si existant
+            addTag(tagInput.value);
+
+            // Création de l'objet article
+            const newArticle = {
+                id: Date.now(),
+                nom: document.getElementById('article').value,
+                categorie: document.getElementById('categorie').value,
+                prix: parseFloat(document.getElementById('prix').value).toFixed(2),
+                motsCles: [...currentKeywords] // copie des mots-clés
+            };
+
+            // Ajout en BDD
+            articlesDatabase.push(newArticle);
+
+            // Réinitialisation du formulaire et des tags
+            form.reset();
+            currentKeywords = [];
+            renderTags();
+
+            // Rafraîchir l'affichage
+            updateTable(articlesDatabase);
+        });
+
+
+        // --- SYSTÈME DE RECHERCHE ---
+        function updateTable(data) {
+            // Nettoyer les anciennes lignes sauf la ligne "vide"
+            const rows = resultsTableBody.querySelectorAll('tr:not(#emptyRow)');
+            rows.forEach(row => row.remove());
+
+            if (data.length === 0) {
+                emptyRow.style.display = 'table-row';
+                return;
+            }
+
+            emptyRow.style.display = 'none';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors duration-150 font-medium text-slate-700";
+                
+                // Badge de catégorie stylisé
+                const catBadges = {
+                    alimentation: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+                    cosmetique: 'bg-pink-50 text-pink-700 border-pink-100',
+                    piece: 'bg-amber-50 text-amber-700 border-amber-100',
+                    quincaillerie: 'bg-purple-50 text-purple-700 border-purple-100'
+                };
+
+                // Génération des petits badges de mots-clés pour le tableau
+                const keywordsBadges = item.motsCles.map(kw => 
+                    `<span class="inline-block bg-slate-100 text-slate-600 text-[11px] px-1.5 py-0.5 rounded border border-slate-200 font-normal mr-1 mb-1">#${kw}</span>`
+                ).join('');
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3.5 font-bold text-slate-800">${item.nom}</td>
+                    <td class="px-4 py-3.5">
+                        <span class="capitalize px-2.5 py-1 rounded-full text-xs font-semibold border ${catBadges[item.categorie]}">
+                            ${item.categorie}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3.5 text-blue-600 font-bold">${item.prix} €</td>
+                    <td class="px-4 py-3.5 max-w-[200px] flex flex-wrap">${keywordsBadges || '<span class="text-slate-400 italic font-normal text-xs">Aucun</span>'}</td>
+                `;
+                resultsTableBody.appendChild(tr);
+            });
+        }
+
+        // Écouteur sur la barre de recherche (Recherche instantanée)
+        searchInput.addEventListener('input', (e) => {
+            const searchTerms = e.target.value.toLowerCase().trim();
+
+            if (!searchTerms) {
+                updateTable(articlesDatabase);
+                return;
+            }
+
+            // Filtre : On cherche si le terme est dans le NOM de l'article OU dans la liste des MOTS-CLÉS
+            const filtered = articlesDatabase.filter(item => {
+                const matchNom = item.nom.toLowerCase().includes(searchTerms);
+                const matchMotsCles = item.motsCles.some(keyword => keyword.includes(searchTerms));
+                return matchNom || matchMotsCles;
+            });
+
+            updateTable(filtered);
+        });
+    </script>
+</body>
+</html>
