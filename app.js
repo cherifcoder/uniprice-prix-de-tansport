@@ -30,7 +30,6 @@ app.use("/articles", articleRoutes);
 
 // ─────────────────────────────────────────────────────────────────────
 
-// ✅ En local : démarrer le serveur
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 7000; // Mis sur 7000 pour correspondre à tes tests
   app.listen(PORT, () => {
@@ -38,5 +37,5 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// ✅ Sur Vercel : exporter l’app
+
 module.exports = app;
