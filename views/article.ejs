@@ -1,0 +1,69 @@
+<%- include("partials/header") %>
+
+<div class="max-w-4xl mx-auto bg-white shadow p-6 rounded-xl space-y-6">
+  <h2 class="text-xl font-bold mb-4">Liste des Articles</h2>
+
+  <!-- Barre de recherche + filtre catégorie -->
+  <form action="/articles" method="GET" class="flex flex-col sm:flex-row gap-3 sm:items-center">
+    <!-- Recherche -->
+    <div class="relative flex-1">
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+      </span>
+      <input type="text" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>" placeholder="Rechercher par nom ou mot-clé..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200">
+    </div>
+
+    <!-- Filtre catégorie -->
+    <select name="categorie" class="w-full sm:w-48 border border-slate-200 rounded-xl p-2.5 text-sm font-medium text-slate-800 
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+      <option value="">Toutes catégories</option>
+      <option value="alimentation" <%= categorie === 'alimentation' ? 'selected' : '' %>>Alimentation</option>
+      <option value="cosmetique" <%= categorie === 'cosmetique' ? 'selected' : '' %>>Cosmétique</option>
+      <option value="piece" <%= categorie === 'piece' ? 'selected' : '' %>>Pièce</option>
+      <option value="quincaillerie" <%= categorie === 'quincaillerie' ? 'selected' : '' %>>Quincaillerie</option>
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+      Filtrer
+    </button>
+  </form>
+
+  <!-- Tableau -->
+  <div class="overflow-x-auto rounded-xl border border-slate-100">
+    <table class="w-full text-left text-sm text-slate-600">
+      <thead class="bg-slate-50 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+        <tr>
+          <th class="px-4 py-3">Article</th>
+          <th class="px-4 py-3">Prix (CFA)</th>
+          <th class="px-4 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <% if (articles.length === 0) { %>
+        <tr>
+          <td colspan="4" class="px-4 py-8 text-center text-slate-400 italic">
+            Aucun article enregistré ou correspondant à la recherche.
+          </td>
+        </tr>
+        <% } else { %>
+        <% articles.forEach(a => { %>
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="px-4 py-3 font-bold text-slate-800"><%= a.nom %></td>
+          <td class="px-4 py-3 text-blue-600 font-semibold"><%= a.prix %></td>
+          <td class="px-4 py-3 flex gap-2">
+            <a href="/articles/edit/<%= a._id %>" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs hover:bg-yellow-600"><i class="bi bi-pencil-square"></i></a>
+            <form action="/articles/delete/<%= a._id %>" method="POST" onsubmit="return confirm('Supprimer cet article ?');">
+              <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700"><i class="bi bi-trash"></i></button>
+            </form>
+          </td>
+
+        </tr>
+        <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

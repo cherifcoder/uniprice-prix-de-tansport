@@ -1,0 +1,49 @@
+<%- include("partials/header") %>
+
+<div class="max-w-4xl mx-auto bg-white shadow p-6 rounded-xl">
+  <h2 class="text-xl font-bold mb-4">Liste des Articles</h2>
+
+  <!-- Conteneur scrollable sur mobile -->
+  <div class="overflow-x-auto rounded-lg border border-slate-200">
+    <table class="min-w-full text-sm text-slate-700">
+      <thead class="bg-gray-100 text-xs uppercase font-semibold tracking-wide">
+        <tr>
+          <th class="px-4 py-3 text-left">Nom</th>
+          <th class="px-4 py-3 text-left">Catégorie</th>
+          <th class="px-4 py-3 text-left">Prix (CFA)</th>
+          <th class="px-4 py-3 text-left">Mots-clés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (articles.length === 0) { %>
+          <tr>
+            <td colspan="4" class="px-4 py-6 text-center text-gray-400 italic">
+              Aucun article
+            </td>
+          </tr>
+        <% } else { %>
+          <% articles.forEach(a => { %>
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="border-t px-4 py-3 font-medium"><%= a.nom %></td>
+              <td class="border-t px-4 py-3 capitalize"><%= a.categorie %></td>
+              <td class="border-t px-4 py-3 text-blue-600 font-semibold"><%= a.prix %></td>
+              <td class="border-t px-4 py-3">
+                <% if (a.motsCles.length > 0) { %>
+                  <div class="flex flex-wrap gap-1">
+                    <% a.motsCles.forEach(m => { %>
+                      <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">#<%= m %></span>
+                    <% }) %>
+                  </div>
+                <% } else { %>
+                  <span class="text-gray-400 italic">Aucun</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include("partials/footer") %>

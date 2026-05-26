@@ -1,0 +1,90 @@
+<%- include("partials/header") %>
+
+<div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+  <!-- En-tête -->
+  <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5 text-white">
+    <h2 class="text-xl font-bold">
+      <%= article ? "Modifier l'article" : "Ajouter un article" %>
+    </h2>
+    <p class="text-xs text-blue-100 mt-0.5">
+      <%= article ? "Mettre à jour les informations existantes" : "Enregistrer un nouvel article" %>
+    </p>
+  </div>
+
+  <!-- Corps du formulaire -->
+  <form action="<%= article ? '/articles/edit/' + article._id : '/articles/new' %>" method="POST" class="p-6 space-y-5">
+    <!-- Champ : Nom -->
+    <div class="space-y-1.5">
+      <label for="nom" class="text-sm font-semibold text-slate-700 block">Nom de l'article</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+          <i class="fa-solid fa-box-open text-sm"></i>
+        </span>
+        <input type="text" id="nom" name="nom" 
+               value="<%= article ? article.nom : '' %>" 
+               required placeholder="Ex: Marteau, Shampoing..." 
+               class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+      </div>
+    </div>
+
+    <!-- Champ : Catégorie -->
+    <div class="space-y-1.5">
+      <label for="categorie" class="text-sm font-semibold text-slate-700 block">Catégorie</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+          <i class="fa-solid fa-tags text-sm"></i>
+        </span>
+        <select id="categorie" name="categorie" required 
+                class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 
+                       appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+          <option value="" disabled <%= !article ? "selected" : "" %> hidden>Choisir une catégorie...</option>
+          <option value="alimentation" <%= article && article.categorie === 'alimentation' ? 'selected' : '' %>>Alimentation</option>
+          <option value="cosmetique" <%= article && article.categorie === 'cosmetique' ? 'selected' : '' %>>Cosmétique</option>
+          <option value="piece" <%= article && article.categorie === 'piece' ? 'selected' : '' %>>Pièce</option>
+          <option value="quincaillerie" <%= article && article.categorie === 'quincaillerie' ? 'selected' : '' %>>Quincaillerie</option>
+        </select>
+        <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-slate-400">
+          <i class="fa-solid fa-chevron-down text-xs"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Champ : Prix -->
+    <div class="space-y-1.5">
+      <label for="prix" class="text-sm font-semibold text-slate-700 block">Prix du transport</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+          <i class="fa-solid fa-money-bill-wave text-sm"></i>
+        </span>
+        <input type="number" id="prix" name="prix" min="0" step="0.01" 
+               value="<%= article ? article.prix : '' %>" 
+               required placeholder="0.00" 
+               class="w-full pl-10 pr-12 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-sm font-bold text-slate-400">€</span>
+      </div>
+    </div>
+
+    <!-- Champ : Mots-clés -->
+    <div class="space-y-1.5">
+      <label class="text-sm font-semibold text-slate-700 block">Mots-clés associés</label>
+      <input type="text" name="motsCles" 
+             value="<%= article ? article.motsCles.join(', ') : '' %>" 
+             placeholder="Séparez par virgule" 
+             class="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-medium text-slate-800 
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white transition-all duration-200">
+      <p class="text-[11px] text-slate-400 pl-1">Séparez les mots par une virgule.</p>
+    </div>
+
+    <!-- Bouton -->
+    <button type="submit" 
+            class="w-full mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 
+                   text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200 
+                   flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
+      <i class="fa-solid fa-floppy-disk"></i> <%= article ? "Mettre à jour l'article" : "Enregistrer l'article" %>
+    </button>
+  </form>
+</div>
+
+<%- include("partials/footer") %>
