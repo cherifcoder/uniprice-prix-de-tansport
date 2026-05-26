@@ -8,7 +8,8 @@ const articleRoutes = require("./routes/articleRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 6000;
-
+const dns = require("dns");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 // DB
 connectDB();
 
