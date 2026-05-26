@@ -3,12 +3,9 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
-
 const articleRoutes = require("./routes/articleRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 6000;
-
 
 // DB
 connectDB();
@@ -22,6 +19,13 @@ app.set("views", path.join(__dirname, "views"));
 // Routes
 app.use("/articles", articleRoutes);
 
-app.listen(PORT, () => {
-  console.log(` Server running on http://localhost:${PORT}`);
-});
+// ✅ En local : démarrer le serveur
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 6000;
+  app.listen(PORT, () => {
+    console.log(` Server running on http://localhost:${PORT}`);
+  });
+}
+
+// ✅ Sur Vercel : exporter l’app
+module.exports = app;
