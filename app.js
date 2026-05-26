@@ -4,7 +4,8 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const articleRoutes = require("./routes/articleRoutes");
-
+// const dns = require("dns");
+// dns.setServers(["1.1.1.1", "8.8.8.8"]);
 const app = express();
 
 // DB
@@ -26,6 +27,8 @@ if (process.env.NODE_ENV !== "production") {
     console.log(` Server running on http://localhost:${PORT}`);
   });
 }
-
-// ✅ Sur Vercel : exporter l’app
+// Route de test pour vérifier que le serveur répond sur la racine
+app.get("/", (req, res) => {
+  res.redirect("/articles");
+});
 module.exports = app;
