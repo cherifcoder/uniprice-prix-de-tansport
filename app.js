@@ -11,6 +11,10 @@ const app = express();
 // DB
 connectDB();
 
+// Définition robuste des chemins pour Vercel
+app.set("views", path.join(process.cwd(), "views"));
+app.set("view engine", "ejs");
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
